@@ -24,7 +24,7 @@ public class Auction
      */
     public void enterLot(String description)
     {
-        lots.put(lots.size(), new Lot(lots.size()+1, description)); // lots.put(new Lot(lots.size()+1, description)); 
+        lots.put(lots.size() + 1, new Lot(lots.size()+1, description)); // lots.put(new Lot(lots.size()+1, description)); 
     }
 
     /**
