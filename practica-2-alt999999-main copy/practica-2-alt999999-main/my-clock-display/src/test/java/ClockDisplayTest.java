@@ -72,7 +72,33 @@ public class ClockDisplayTest
         assertEquals("00:00:00", reloj3.getTime());
     }
     
-    
+    // Test Negativos
+    @Test 
+    public void testNegativo1()
+    {
+        ClockDisplay reloj = new ClockDisplay();
+        assertThrows(IllegalArgumentException.class,()-> reloj.setTime(28, 0, 0));
+    }
+
+    @Test 
+    public void testNegativo2()
+    {
+        ClockDisplay reloj = new ClockDisplay();
+        assertThrows(IllegalArgumentException.class,()-> reloj.setTime(22, 200, 55));
+    }
+
+    @Test 
+    public void testNegativo3()
+    {
+        ClockDisplay reloj = new ClockDisplay();
+        assertThrows(IllegalArgumentException.class,()-> reloj.setTime(20, 54, 70));
+    }
+
+    @Test 
+    public void testNegativo4()
+    {
+        assertThrows(IllegalArgumentException.class,()-> new ClockDisplay(25, 54, 70));
+    }
 }
 
 
