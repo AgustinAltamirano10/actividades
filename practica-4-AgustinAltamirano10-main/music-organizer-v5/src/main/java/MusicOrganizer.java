@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -17,7 +18,7 @@ public class MusicOrganizer
     /**
      * Create an empty MusicOrganizer
      */
-    public MusicOrganizer()
+    public MusicOrganizer() 
     {
         tracks = new ArrayList<>();
         player = new MusicPlayer();
@@ -33,6 +34,9 @@ public class MusicOrganizer
      */
     public void addTrack(Track track)
     {
+        if (!track.getFilename().contains(".mp3")){
+            throw new IllegalArgumentException("Formato incorrecto debe ser .mp3");
+        }
         tracks.add(track);
     }
 
@@ -49,7 +53,7 @@ public class MusicOrganizer
      * @post Prints the details of the track in position 'index' 
      * to the terminal.
      */
-    public void listTrack(int index)
+    public void listTrack(int index) 
     {
         if (index < 0 || index >= tracks.size()) {
             throw new  IllegalArgumentException("indice incorrecto");
@@ -141,7 +145,7 @@ public class MusicOrganizer
      * @post Removes the track in position 'index' from the 
      * collection.
      */
-    public void removeTrack(int index)
+    public void removeTrack(int index) 
     {
         if (index < 0 || index >= tracks.size()) {
             throw new  IllegalArgumentException("indice incorrecto");
@@ -158,6 +162,10 @@ public class MusicOrganizer
      */
     public void startPlaying(int index)
     {
+        if (index < 0 || index >= tracks.size()) {
+            throw new  IllegalArgumentException("indice incorrecto");
+        }
+
         Track track = tracks.get(index);
         String filename = track.getFilename();
         player.startPlaying(filename);
@@ -179,6 +187,10 @@ public class MusicOrganizer
      */     
     private void readLibrary(String folderName)
     {
+        if (!folderName.contains( ".mp3" )){
+            throw new IllegalArgumentException("formato incorrecto debe ser artist-title.mp3");
+        }
+
         ArrayList<Track> tempTracks = reader.readTracks(folderName, ".mp3");
         // Put all the tracks into the organizer.
         for(Track track: tempTracks) {
