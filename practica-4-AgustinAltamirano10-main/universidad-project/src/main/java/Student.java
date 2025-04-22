@@ -15,5 +15,17 @@ public class Student extends Person{
         this.id = id;
     }
 
-    
+    public boolean equals(Object obj)
+    {
+        if(obj == null){
+            return false;
+        }
+        
+        if (!(obj instanceof Student)) {
+            return false;
+        }
+        
+        Student other = (Student) obj;
+        return id == other.id;
+    }
 }
