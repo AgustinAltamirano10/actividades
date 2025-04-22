@@ -18,8 +18,17 @@ public class Curso extends Student {
         }
         return false;
     }
-    
+    public static void main(String[] args) {
+        Curso curso = new Curso("raul", "lopez", 123, null);
+        Student student = new Student("raul", "lopez", 123);
+        System.out.println(curso.equals(student)); // True
+
+        Student student2 = new Student("jorge", "diaz", 0);
+        System.out.println(curso.equals(student2)); // False
+    }
 }
+
+
 /**
  * Actividad 4
  * a) device
