@@ -22,7 +22,6 @@ public class ClockDisplay
      */
     public ClockDisplay()
     {
-        
         hours = new NumberDisplay(24);
         minutes = new NumberDisplay(60);
         seconds = new NumberDisplay(60);
@@ -30,7 +29,7 @@ public class ClockDisplay
     }
 
     /**
-     * @pre {@code 0 <= 'hour' < 24 and 0 <= 'minute' < 60}.
+     * @pre {@code 0 <= 'hour' < 24 and 0 <= 'minute' < 60 and 0 <= 'second' < 60}.
      * @post Constructor for ClockDisplay objects that
      * creates a new clock set at the time specified by the 
      * parameters.
@@ -72,7 +71,7 @@ public class ClockDisplay
     }
 
     /**
-     * @pre {@code 0 <= 'hour' < 24 and 0 <= 'minute' < 60}.
+     * @pre {@code 0 <= 'hour' < 24 and 0 <= 'minute' < 60 and 0 <= 'second' < 60}.
      * @post Set the time of the display to the specified hour and
      * minute.
      */
@@ -83,6 +82,10 @@ public class ClockDisplay
         }
 
         if (minute < 0 || minute >= 60) {
+            throw new IllegalArgumentException("minutos incorrectos");
+        }
+
+        if (second < 0 || second>= 60) {
             throw new IllegalArgumentException("minutos incorrectos");
         }
 
