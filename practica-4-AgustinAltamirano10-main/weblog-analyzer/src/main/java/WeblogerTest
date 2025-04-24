@@ -1,0 +1,22 @@
+import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+public class WeblogTest {
+    
+    @Test 
+    public void testLogFileCreatorNegative()
+    {
+        LogfileCreator file = new LogfileCreator();
+        assertThrows(IllegalArgumentException.class,()-> file.createFile("file" , -1));
+    }
+
+    @Test 
+    public void testLogEntryNegative()
+    {
+        assertThrows(IllegalArgumentException.class,()-> new LogEntry(200, 34, 45, 45, 80));
+    }
+}
