@@ -1,3 +1,5 @@
+import java.util.List;
+
 /**
  * LinkedList is an implementation of the TAD List, based
  * on doubly-linked lists. List represents unbounded
@@ -56,6 +58,7 @@ public class DoublyLinkedList<T> implements List<T> {
      *   More formally, it satisfies:
      *   result = exists o | o in this && e.equals(o).
      */
+    @Override
     public boolean contains(T e) {
         Node current = head;
         while (current != null) {
@@ -234,8 +237,6 @@ public class DoublyLinkedList<T> implements List<T> {
             if (aux == head) {
                 head = aux.next;
                 head.prev = null;
-                data = aux.data;
-                aux = null;
             } else {
                 Node aux2 = aux.prev;
                 aux2.next = aux.next;
@@ -244,10 +245,10 @@ public class DoublyLinkedList<T> implements List<T> {
                 } else {
                     aux.next.prev = aux2;
                 }
-                data = aux.data;
-                aux = null;
             }
         } 
+        data = aux.data;
+        aux = null;
         return data;
     }
 
@@ -293,6 +294,26 @@ public class DoublyLinkedList<T> implements List<T> {
             aux = aux.next;
         }
         return false;
+    }
+
+    public boolean repOk()
+    {
+        if (size < 0) {
+            return false;
+        }
+
+        Node aux = head;
+        int cantidadDeNodos = 0;
+        while (aux != null && cantidadDeNodos < size - 1) {
+            aux = aux.next;
+            cantidadDeNodos++;
+        }
+
+        if (aux != null || cantidadDeNodos < size - 1) {
+            return false;
+        }
+
+        return true;
     }
 
 }

@@ -95,6 +95,10 @@ public class CircularQueue<T> implements Queue<T> {
         queue[first] = null;
         first = (first + 1) % queue.length;;
         size--;
+        
+        if (size > 0 && size == queue.length/4) {
+            resize(queue.length/2);
+        }
         return data;
     }
 

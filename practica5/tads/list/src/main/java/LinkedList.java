@@ -274,4 +274,24 @@ public class LinkedList<T> implements List<T> {
         res += "]";
         return res;
     }
+
+    public boolean repOk()
+    {
+        if (size < 0) {
+            return false;
+        }
+
+        Node aux = head;
+        int cantidadDeNodos = 0;
+        while (aux != null && cantidadDeNodos < size - 1) {
+            aux = aux.next;
+            cantidadDeNodos++;
+        }
+
+        if (aux != null || cantidadDeNodos < size - 1) {
+            return false;
+        }
+
+        return true;
+    }
 }
