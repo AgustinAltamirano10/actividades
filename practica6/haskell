@@ -1,0 +1,99 @@
+bisiesto :: Int -> Bool
+bisiesto año 
+    | (año `mod` 400 == 0) = True
+    | (año `mod` 100 == 0) = False
+    | (año `mod` 4 == 0)   = True
+    | otherwise            = False
+
+
+-- SetADT.hs
+module SetADT where
+
+-- Definimos el tipo Set como una lista de elementos de tipo a.
+-- Usaremos una lista de elementos para implementar el Set.
+data Set a = Set [a] deriving Show
+
+-- Operaciones para el conjunto
+empty :: Set a
+empty = Set []
+
+insert :: Eq a => a -> Set a -> Set a
+contains :: Eq a => a -> Set a -> Bool
+union :: Eq a => Set a -> Set a -> Set a
+difference :: Eq a => Set a -> Set a -> Set a
+intersection :: Eq a => Set a -> Set a -> Set a
+
+
+contains :: Eq a => a -> Set a -> Bool
+contains x (Set xs) = x `elem` xs
+
+
+union :: Eq a => Set a -> Set a -> Set a
+union (Set xs) (Set ys) = Set (xs ++ filter (`notElem` xs) ys)
+
+
+difference :: Eq a => Set a -> Set a -> Set a
+difference (Set xs) (Set ys) = Set (filter (`notElem` ys) xs)
+
+
+intersection :: Eq a => Set a -> Set a -> Set a
+intersection (Set xs) (Set ys) = Set (filter (`elem` ys) xs)
+
+
+empty :: Set a
+empty = Set []
+
+-- SetList.hs
+module SetList where
+import SetADT
+
+-- Definimos el tipo Set como una lista de elementos de tipo a.
+-- Usamos una lista de elementos para implementar el Set.
+data Set a = Set [a] deriving Show
+
+-- Operaciones para el conjunto
+
+-- Conjunto vacío
+empty :: Set a
+empty = Set []
+
+-- Insertar un elemento en el conjunto
+insert :: Eq a => a -> Set a -> Set a
+insert x (Set xs)
+  | contains x (Set xs) = Set xs
+  | otherwise           = Set (x : xs)
+
+-- Verificar si un elemento está en el conjunto
+contains :: Eq a => a -> Set a -> Bool
+contains x (Set xs) = x `elem` xs
+
+-- Unir dos conjuntos
+union :: Eq a => Set a -> Set a -> Set a
+union (Set xs) (Set ys) = Set (xs ++ filter (`notElem` xs) ys)
+
+-- Diferencia entre dos conjuntos
+difference :: Eq a => Set a -> Set a -> Set a
+difference (Set xs) (Set ys) = Set (filter (`notElem` ys) xs)
+
+-- Intersección de dos conjuntos
+intersection :: Eq a => Set a -> Set a -> Set a
+intersection (Set xs) (Set ys) = Set (filter (`elem` ys) xs)
+
+
+-- Main.hs
+import SetList
+
+main :: IO ()
+main = do
+    let set1 = insert 1 (insert 2 (insert 3 empty))
+    let set2 = insert 2 (insert 3 (insert 4 empty))
+
+    -- Imprimir sets
+    print set1
+    print set2
+
+    -- Operaciones
+    print (union set1 set2)          -- Unión
+    print (difference set1 set2)     -- Diferencia
+    print (intersection set1 set2)   -- Intersección
+    print (contains 2 set1)          -- Contiene
