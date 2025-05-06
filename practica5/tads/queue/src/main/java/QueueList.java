@@ -157,34 +157,6 @@ public class QueueList<T> implements Queue<T> {
         return res;
     }
     
-    public boolean palindromo() {
-        if (isEmpty()) return false;
-        
-        Node aux = first, aux2 = first;
-        int n = size();
-        int j;
-
-        while (aux2.next != null) { // Avanzo hacia el ultimo elemento
-            aux2 = aux2.next;
-        }
-
-        while ((aux2.next != aux) && (aux != aux2)) {
-            if (!aux.data.equals(aux2.data)) {
-                return false;
-            }
-
-            aux = aux.next;
-            aux2 = first;
-            j = 1;
-            while (j < n - 1) {
-                aux2 = aux2.next;
-                j++;
-            }
-            n--;
-        }
-        return true;
-}
-
     public static void main(String[] args) {
         QueueList<String> l = new QueueList<>();
         QueueList<String> l1 = new QueueList<>();
