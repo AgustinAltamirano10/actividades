@@ -66,7 +66,7 @@ public class DoublyLinkedStack<T> implements Stack<T> {
                 head = head.next;
                 head.prev = null;
             }
-            return head.data;
+            return data;
     }
 
     @Override
