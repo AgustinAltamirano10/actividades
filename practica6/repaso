@@ -1,0 +1,55 @@
+package Palabras;
+
+import java.util.HashMap;
+
+public class ContadorPalabras {
+    
+    private String frase;
+
+    public ContadorPalabras(String frase)
+    {
+        if (frase == null) {
+            throw new IllegalArgumentException();
+        }
+        this.frase = frase;
+    }
+
+    public HashMap<String, Integer> contarFrecuencia(String frase)
+    {
+        HashMap<String, Integer> contador = new HashMap<>();
+        String[] palabra = dividir();
+        for (String clave : palabra) {
+                if (contador.containsKey(clave)) {
+                    contador.put(clave, contador.get(clave) + 1);
+                    
+                } else {
+                    contador.put(clave, 1);
+                }
+        }
+        return contador;
+    }
+
+    public String[] dividir()
+    {   
+        String[] palabras = frase.toLowerCase().split("\\s+");
+        return palabras;
+    }
+}
+
+package Palabras;
+
+import java.util.HashMap;
+
+public class Main {
+    public static void main(String[] args) {
+        String frase = "Crea una clase una clase contador palabras una";
+        ContadorPalabras f = new ContadorPalabras(frase);
+        HashMap<String, Integer> map = f.contarFrecuencia(frase);
+
+        for (String clave : map.keySet()) {
+            System.out.println("palabra : " + clave + ", " + "cantidad : " + map.get(clave));
+        }
+    }
+}
+
+en el main para probar las exepciones usar try catch try cuando se puede calcular el area y catch cuando no se puede porque es negativo algun parametro
