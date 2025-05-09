@@ -40,7 +40,7 @@ public class QueueCircularArray<T> implements Queue<T> {
 
     public void resize(int cantidad)
     {
-        if (cantidad < 0) {
+        if (cantidad <= size) {
             throw new IllegalArgumentException();
         }
         
