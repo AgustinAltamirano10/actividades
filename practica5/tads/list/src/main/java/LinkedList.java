@@ -76,23 +76,26 @@ public class LinkedList<T> implements List<T> {
 
     @Override
     public boolean remove(T e) {
-        Node aux = head;
+        if (isEmpty()) return false;
 
-        if (aux.data.equals(e)) {
+        if (head.data.equals(e)) {
             head = head.next;
+            size--;
             return true;
         }
 
-        while (aux.next != null) {
-            if (aux.next.data.equals(e) || aux.data.equals(e)) {
-                Node aux2 = aux.next;
-                aux.next = aux2.next;
-                aux2 = null;
-                return true;
-            }
-            aux = aux.next;
+        Node prev = head;
+        Node curr = head.next;
+        while (curr != null && !curr.data.equals(e)) {
+            prev = curr;
+            curr = curr.next;
         }
-        return false;
+
+        if (curr == null) return false;
+
+        prev.next = curr.next;
+        size--;
+        return true;
     }
 
     @Override
@@ -171,28 +174,21 @@ public class LinkedList<T> implements List<T> {
      */
     @Override
     public void add(int index, T e) {
-        if (index < 0 || index > size) {
-            throw new IndexOutOfBoundsException("Index out of bounds");
-        }
+        if (index < 0 || index > size) throw new IndexOutOfBoundsException();
 
+        Node nuevo = new Node(e);
         if (index == 0) {
-            addHead(e);
+            nuevo.next = head;
+            head = nuevo;
         } else {
-            int i;
-            Node aux = head;
-            Node aux2 = null;
-            for (i = 0; i < size; i++) {
-                if (i == index) {
-                    break;
-                }
-                aux2 = aux;
-                aux = aux.next;
+            Node prev = head;
+            for (int i = 0; i < index - 1; i++) {
+                prev = prev.next;
             }
-            Node aux3 = new Node(e);
-            aux2.next = aux3;
-            aux3.next = aux;
-            size++;
+            nuevo.next = prev.next;
+            prev.next = nuevo;
         }
+        size++;
     }
 
     /**
@@ -203,37 +199,24 @@ public class LinkedList<T> implements List<T> {
      */
     @Override
     public T remove(int index) {
-        if (0 > index || index > size()) {
-            throw new IndexOutOfBoundsException("Indice Incorrecto");
+        if (index < 0 || index >= size) throw new IndexOutOfBoundsException();
+
+        if (index == 0) {
+            T elem = head.data;
+            head = head.next;
+            size--;
+            return elem;
         }
 
-        if (isEmpty()) {
-            throw new IllegalArgumentException("Lista Vacia");
-        }
-
-        T data;
-        int i;
         Node aux = head;
-        Node aux2 = null;
-        
-        if (head.next == null) {
-            data = head.data;
-            head = null;
-        }
-        
-        for (i = 0; i < size; i++) {
-            if (i == index || aux.next == null) {
-                break;
-            }
-            aux2 = aux;
+        for (int i = 0; i < index - 1; i++) {
             aux = aux.next;
         }
 
-        data = aux.data;
-        aux2.next = aux.next;
-        aux = null;
-        
-        return data;
+        T elem = aux.next.data;
+        aux.next = aux.next.next;
+        size--;
+        return elem;
     }
 
     /**
