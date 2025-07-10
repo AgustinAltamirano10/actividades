@@ -1,4 +1,4 @@
-import java.util.List;
+import java.util.NoSuchElementException;
 
 /**
  * LinkedList is an implementation of the TAD List, based
@@ -58,7 +58,6 @@ public class DoublyLinkedList<T> implements List<T> {
      *   More formally, it satisfies:
      *   result = exists o | o in this && e.equals(o).
      */
-    @Override
     public boolean contains(T e) {
         Node current = head;
         while (current != null) {
@@ -218,39 +217,49 @@ public class DoublyLinkedList<T> implements List<T> {
      *   result = old(this)[index] && #this = #old(this) -1.
      */
     public T remove(int index) {
-        if (0 > index || index >= size()) {
-            throw new IndexOutOfBoundsException("Indice Incorrecto");
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException();
         }
 
-        if (isEmpty()) {
-            throw new IllegalArgumentException("Lista Vacia");
-        }
+        Node aux;
 
-        int i;
-        Node aux = head;
+        // Caso especial: eliminar el primero
+        if (index == 0) {
+            aux = head;
+            T element = aux.data;
 
-        for (i = 0; i != index; i++) {
-            aux = aux.next;
-        }
-        T data = null;
-        if (i == index) {
-            if (aux == head) {
-                head = aux.next;
+            head = head.next;
+            if (head != null) {
                 head.prev = null;
             } else {
-                Node aux2 = aux.prev;
-                aux2.next = aux.next;
-                if (aux == tail) {
-                    tail = aux2;
-                } else {
-                    aux.next.prev = aux2;
-                }
+                tail = null; // lista vacía
             }
-        } 
-        data = aux.data;
-        aux = null;
-        return data;
+
+            size--;
+            return element;
+        }
+
+        // Avanzar hasta el nodo a eliminar
+        aux = head;
+        for (int i = 0; i < index; i++) {
+            aux = aux.next;
+        }
+
+        T element = aux.data;
+        if (aux.prev != null) {
+            aux.prev.next = aux.next;
+        }
+        if (aux.next != null) {
+            aux.next.prev = aux.prev;
+        }
+        if (aux == tail) {
+            tail = aux.prev;
+        }
+
+        size--;
+        return element;
     }
+
 
     /**
      * @post Returns the index of the first occurrence of e
@@ -260,14 +269,17 @@ public class DoublyLinkedList<T> implements List<T> {
      *     result != -1 -> this[result].equals(e).
      */
     public int indexOf(T e) {
+        if (isEmpty()) {
+            throw new NoSuchElementException();
+        }
         Node aux = head;
         int i = 0;
         while (aux != null) {
             if (aux.data.equals(e)) {
                 return i;
             }
-            i++;
             aux = aux.next;
+            i++;
         }
         return -1;
     }
@@ -279,41 +291,36 @@ public class DoublyLinkedList<T> implements List<T> {
      */
     public boolean remove(T e) {
         Node aux = head;
-        while (aux.next != null) {
-            if (aux.next.data.equals(e) || aux.data.equals(e)) {
-                Node aux2 = aux.next;
-                aux = aux2.next;
-                if (aux == tail) {
-                    tail = aux2;
-                } else {
-                    aux.next.prev = aux2;
+
+        while (aux != null) {
+            if (aux.data.equals(e)) {
+                // Caso: es el primer nodo
+                if (aux.prev == null) {
+                    head = aux.next;
+                    if (head != null) {
+                        head.prev = null;
+                    } else {
+                        tail = null; // la lista quedó vacía
+                    }
                 }
-                aux2 = null;
+                // Caso: es el último nodo
+                else if (aux.next == null) {
+                    tail = aux.prev;
+                    tail.next = null;
+                }
+                // Caso: en el medio
+                else {
+                    aux.prev.next = aux.next;
+                    aux.next.prev = aux.prev;
+                }
+
+                size--;
                 return true;
             }
             aux = aux.next;
         }
+
         return false;
-    }
-
-    public boolean repOk()
-    {
-        if (size < 0) {
-            return false;
-        }
-
-        Node aux = head;
-        int cantidadDeNodos = 0;
-        while (aux != null && cantidadDeNodos < size - 1) {
-            aux = aux.next;
-            cantidadDeNodos++;
-        }
-
-        if (aux != null || cantidadDeNodos < size - 1) {
-            return false;
-        }
-
-        return true;
     }
 
 }
