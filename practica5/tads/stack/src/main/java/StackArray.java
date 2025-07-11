@@ -138,19 +138,17 @@ public class StackArray<T> implements Stack<T>  {
     @Override
     public Iterator<T> iterator() {
         return new Iterator<T>() {
-            private int index = 0;
-
-            public boolean hasNext()
-            {
-                return index < size;
+            private int index = size - 1;
+            
+            public boolean hasNext() {
+                return index >= 0;
             }
-
-            public T next()
-            {
+            
+            public T next() {
                 if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
-                return array[index++];
+                return array[index--];
             }
         };
     }
